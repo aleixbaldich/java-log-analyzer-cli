@@ -76,9 +76,9 @@ public class LogAnalyzer {
         System.out.println("================================");
         System.out.println("");
         System.out.println("Suspicious IPs (3 or more attempts):");
-        for(Map.Entry<String,Integer> entry : suspiciousIps.entrySet()){
-            System.out.println(entry.getKey() + " IS A SUSPICIOUS IP");
-        }
+        for (Map.Entry<String, Integer> entry : suspiciousIps.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue() + " failed attempts");
+        }      
     }   
 
 }
