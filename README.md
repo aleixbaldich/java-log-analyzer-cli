@@ -28,13 +28,6 @@ java-log-analyzer-cli/
 
 - Java JDK installed
 
-You can check your Java installation with:
-
-```bash
-java -version
-javac -version
-```
-
 ## Usage
 
 Compile the program:
