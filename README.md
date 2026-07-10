@@ -10,6 +10,7 @@ The current version reads a sample log file, counts failed login attempts, group
 - Counts total failed login attempts
 - Counts failed login attempts by IP address
 - Flags suspicious IPs with 3 or more failed login attempts
+- Accepts a log file path as a command-line argument
 - Uses a sample authentication log for testing and demonstration
 - Runs locally and does not connect to external systems
 
@@ -35,18 +36,25 @@ java-log-analyzer-cli/
 Compile the program:
 
 ```bash
-javac src/LogAnalyzer.java
+javac -d out src/LogAnalyzer.java
 ```
 
-Run it:
+Run it with the default sample log:
 
 ```bash
-java -cp src LogAnalyzer
+java -cp out LogAnalyzer
+```
+
+Run it with a specific log file:
+
+```bash
+java -cp out LogAnalyzer sample_logs/auth.log
 ```
 
 Expected output with the included sample log:
 
 ```text
+Analyzing file: sample_logs/auth.log
 Failed login attempts: 8
 ================================
 
@@ -56,15 +64,21 @@ Failed login attempts by IP:
 ================================
 
 Suspicious IPs (3 or more attempts):
-192.168.1.25 IS A SUSPICIOUS IP
-10.0.0.7 IS A SUSPICIOUS IP
+192.168.1.25 -> 5 failed attempts
+10.0.0.7 -> 3 failed attempts
 ```
 
 The IP order may be different because the program uses a `HashMap`.
 
 ## How It Works
 
-The program opens `sample_logs/auth.log` and reads it line by line.
+The program reads the log file path from the first command-line argument. If no argument is provided, it uses:
+
+```text
+sample_logs/auth.log
+```
+
+Then it opens the selected file and reads it line by line.
 
 If a line contains:
 
@@ -94,16 +108,15 @@ This type of tool is useful for learning basic Blue Team concepts, such as ident
 ## Current Limitations
 
 - The log format is fixed and simple
-- The file path is hardcoded in the Java file
+- The default file path is still hardcoded when no argument is provided
 - The suspicious-IP threshold is hardcoded to 3
 - It only detects lines containing `Failed login`
 - It does not include automated tests yet
 
 ## Future Improvements
 
-- Accept the log file path as a command-line argument
 - Make the suspicious-IP threshold configurable
-- Show the number of failed attempts in the suspicious IP output
+- Add more sample log files for different scenarios
 - Add support for different log formats
 - Sort results by number of failed attempts
 - Add unit tests with JUnit

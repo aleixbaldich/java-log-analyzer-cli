@@ -58,7 +58,17 @@ public class LogAnalyzer {
 
 
     public static void main(String[] args) {
-        String filePath = "sample_logs/auth.log";
+        String filePath;
+        
+        if(args.length > 0){
+            filePath = args[0];
+        }
+        else{
+            filePath = "sample_logs/auth.log";
+        }
+
+        System.out.println("Analyzing file: " + filePath);
+        
         int totalFailedLogins = countFailedLogins(filePath);
 
         Map<String, Integer> failedLoginsByIp = countFailedLoginsByIp(filePath);
