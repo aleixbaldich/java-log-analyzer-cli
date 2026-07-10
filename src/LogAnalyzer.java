@@ -59,20 +59,25 @@ public class LogAnalyzer {
 
     public static void main(String[] args) {
         String filePath;
+        int threshold;
         
         if(args.length > 0){
             filePath = args[0];
+            
         }
         else{
             filePath = "sample_logs/auth.log";
         }
 
+        if(args.length > 1)threshold = Integer.parseInt(args[1]);
+        else threshold = 3;
+
         System.out.println("Analyzing file: " + filePath);
-        
+
         int totalFailedLogins = countFailedLogins(filePath);
 
         Map<String, Integer> failedLoginsByIp = countFailedLoginsByIp(filePath);
-        Map<String, Integer> suspiciousIps = findSuspiciousIp(failedLoginsByIp, 3);
+        Map<String, Integer> suspiciousIps = findSuspiciousIp(failedLoginsByIp, threshold);
 
         System.out.println("Failed login attempts: " + totalFailedLogins);
         System.out.println("================================");
@@ -85,9 +90,14 @@ public class LogAnalyzer {
 
         System.out.println("================================");
         System.out.println("");
-        System.out.println("Suspicious IPs (3 or more attempts):");
-        for (Map.Entry<String, Integer> entry : suspiciousIps.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue() + " failed attempts");
+        System.out.println("Suspicious IPs (" + threshold + " or more attempts):");
+
+        if (suspiciousIps.isEmpty()) {
+            System.out.println("No suspicious IPs found.");
+        } else {
+            for (Map.Entry<String, Integer> entry : suspiciousIps.entrySet()) {
+                System.out.println(entry.getKey() + " -> " + entry.getValue() + " failed attempts");
+            }
         }      
     }   
 
