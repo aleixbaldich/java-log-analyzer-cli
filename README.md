@@ -2,7 +2,7 @@
 
 Java Log Analyzer CLI is a small defensive cybersecurity project that analyzes authentication log files from the command line.
 
-The current version reads a sample log file, counts failed login attempts, groups failed login attempts by IP address, and flags suspicious IPs when they reach a fixed threshold. It is designed as a beginner-friendly Java project for practicing file handling, maps, and basic security analysis.
+The current version reads a sample log file, counts failed login attempts, groups failed login attempts by IP address, flags suspicious IPs when they reach a fixed threshold, and detects successful logins outside normal working hours. It is designed as a beginner-friendly Java project for practicing file handling, maps, and basic security analysis.
 
 ## Features
 
@@ -10,6 +10,7 @@ The current version reads a sample log file, counts failed login attempts, group
 - Counts total failed login attempts
 - Counts failed login attempts by IP address
 - Flags suspicious IPs using a configurable failed-attempt threshold
+- Detects successful logins outside normal working hours
 - Accepts a log file path as a command-line argument
 - Uses a sample authentication log for testing and demonstration
 - Runs locally and does not connect to external systems
@@ -85,6 +86,11 @@ Failed login attempts by IP:
 Suspicious IPs (3 or more attempts):
 192.168.1.25 -> 5 failed attempts
 10.0.0.7 -> 3 failed attempts
+
+================================
+After-hours successful logins:
+2026-07-11 02:13:40 INFO Successful login for user alice from 192.168.1.10
+2026-07-11 21:45:02 INFO Successful login for user bob from 192.168.1.18
 ```
 
 If no IP reaches the selected threshold, the program prints:
@@ -132,9 +138,17 @@ and stores the result in a `HashMap<String, Integer>` where:
 
 If an IP has at least the selected number of failed login attempts, it is added to a separate map of suspicious IPs.
 
+The after-hours login detection checks lines containing:
+
+```text
+Successful login
+```
+
+It extracts the hour from the timestamp and prints successful logins that happen before `08:00` or at/after `20:00`.
+
 ## Example Use Case
 
-This type of tool is useful for learning basic Blue Team concepts, such as identifying repeated failed login attempts that may indicate brute-force behavior.
+This type of tool is useful for learning basic Blue Team concepts, such as identifying repeated failed login attempts that may indicate brute-force behavior or spotting valid logins at unusual hours.
 
 ## Sample Logs
 
@@ -148,12 +162,15 @@ This type of tool is useful for learning basic Blue Team concepts, such as ident
 - The log format is fixed and simple
 - The default file path is still hardcoded when no argument is provided
 - The default suspicious-IP threshold is 3 when no argument is provided
+- Normal working hours are hardcoded as 08:00 to 20:00
 - It only detects lines containing `Failed login`
+- It only detects after-hours activity for lines containing `Successful login`
 - It does not include automated tests yet
 
 ## Future Improvements
 
 - Add support for different log formats
+- Make normal working hours configurable
 - Sort results by number of failed attempts
 - Add unit tests with JUnit
 - Improve error handling and output formatting

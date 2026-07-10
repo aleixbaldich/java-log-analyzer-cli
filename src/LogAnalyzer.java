@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class LogAnalyzer {
 
     public static int countFailedLogins(String filePath){
@@ -55,6 +56,24 @@ public class LogAnalyzer {
         return suspiciousIps;
     }
 
+    public static void detectAfterHoursLogins(String filePath){
+        try(BufferedReader reader = new BufferedReader(new FileReader(filePath))){
+            String line;
+            while((line = reader.readLine()) != null){
+                if(line.contains("Successful login")){
+                    String time = line.substring(11,19);
+                    int hour = Integer.parseInt(time.substring(0,2));
+
+                    if(hour>=20 || hour < 8 ){
+                        System.out.println(line);
+                    }
+                }
+            }
+        }catch (IOException e) {
+        System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
 
 
     public static void main(String[] args) {
@@ -77,12 +96,13 @@ public class LogAnalyzer {
         int totalFailedLogins = countFailedLogins(filePath);
 
         Map<String, Integer> failedLoginsByIp = countFailedLoginsByIp(filePath);
-        Map<String, Integer> suspiciousIps = findSuspiciousIp(failedLoginsByIp, threshold);
+        Map<String, Integer> suspiciousIps = findSuspiciousIp(failedLoginsByIp, threshold);        
 
         System.out.println("Failed login attempts: " + totalFailedLogins);
         System.out.println("================================");
         System.out.println("");
 
+        
         System.out.println("Failed login attempts by IP:");
         for (Map.Entry<String, Integer> entry : failedLoginsByIp.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
@@ -98,7 +118,12 @@ public class LogAnalyzer {
             for (Map.Entry<String, Integer> entry : suspiciousIps.entrySet()) {
                 System.out.println(entry.getKey() + " -> " + entry.getValue() + " failed attempts");
             }
-        }      
+        }
+        
+        System.out.println("");
+        System.out.println("================================");
+        System.out.println("After-hours successful logins:");
+        detectAfterHoursLogins(filePath);
     }   
 
 }
