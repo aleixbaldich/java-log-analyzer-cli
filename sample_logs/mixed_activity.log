@@ -1,0 +1,7 @@
+2026-07-10 12:00:01 WARNING Failed login for user admin from 10.0.0.5
+2026-07-10 12:00:08 WARNING Failed login for user admin from 10.0.0.5
+2026-07-10 12:01:11 INFO Successful login for user alice from 192.168.1.10
+2026-07-10 12:02:21 WARNING Failed login for user test from 172.16.0.8
+2026-07-10 12:03:30 WARNING Failed login for user test from 172.16.0.8
+2026-07-10 12:04:44 WARNING Failed login for user test from 172.16.0.8
+2026-07-10 12:05:10 INFO Password changed for user bob from 192.168.1.18

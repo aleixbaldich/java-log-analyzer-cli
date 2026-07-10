@@ -1,0 +1,4 @@
+2026-07-10 09:00:12 INFO Successful login for user alice from 192.168.1.10
+2026-07-10 09:05:44 INFO Successful login for user bob from 192.168.1.18
+2026-07-10 09:12:03 INFO Password changed for user alice from 192.168.1.10
+2026-07-10 09:18:31 INFO Successful login for user charlie from 192.168.1.31

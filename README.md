@@ -22,6 +22,9 @@ java-log-analyzer-cli/
     LogAnalyzer.java
   sample_logs/
     auth.log
+    brute_force.log
+    clean.log
+    mixed_activity.log
   README.md
   LICENSE
 ```
@@ -49,6 +52,14 @@ Run it with a specific log file:
 
 ```bash
 java -cp out LogAnalyzer sample_logs/auth.log
+```
+
+Other included sample logs:
+
+```bash
+java -cp out LogAnalyzer sample_logs/clean.log
+java -cp out LogAnalyzer sample_logs/brute_force.log
+java -cp out LogAnalyzer sample_logs/mixed_activity.log
 ```
 
 Expected output with the included sample log:
@@ -105,6 +116,13 @@ The suspicious IP detection uses a threshold of `3`. If an IP has 3 or more fail
 
 This type of tool is useful for learning basic Blue Team concepts, such as identifying repeated failed login attempts that may indicate brute-force behavior.
 
+## Sample Logs
+
+- `auth.log`: default authentication log with successful and failed login attempts
+- `clean.log`: normal activity with no failed login attempts
+- `brute_force.log`: repeated failed login attempts from the same IP address
+- `mixed_activity.log`: failed login attempts from multiple IP addresses
+
 ## Current Limitations
 
 - The log format is fixed and simple
@@ -116,7 +134,6 @@ This type of tool is useful for learning basic Blue Team concepts, such as ident
 ## Future Improvements
 
 - Make the suspicious-IP threshold configurable
-- Add more sample log files for different scenarios
 - Add support for different log formats
 - Sort results by number of failed attempts
 - Add unit tests with JUnit
