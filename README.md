@@ -11,6 +11,7 @@ The current version reads a sample log file, counts failed login attempts, group
 - Counts failed login attempts by IP address
 - Flags suspicious IPs using a configurable failed-attempt threshold
 - Detects successful logins outside normal working hours
+- Prints clear messages when no suspicious IPs or after-hours logins are found
 - Accepts a log file path as a command-line argument
 - Uses a sample authentication log for testing and demonstration
 - Runs locally and does not connect to external systems
@@ -99,6 +100,12 @@ If no IP reaches the selected threshold, the program prints:
 No suspicious IPs found.
 ```
 
+If no successful login happens outside normal working hours, the program prints:
+
+```text
+No after-hours successful logins found.
+```
+
 The IP order may be different because the program uses a `HashMap`.
 
 ## How It Works
@@ -144,7 +151,7 @@ The after-hours login detection checks lines containing:
 Successful login
 ```
 
-It extracts the hour from the timestamp and prints successful logins that happen before `08:00` or at/after `20:00`.
+It extracts the hour from the timestamp and prints successful logins that happen before `08:00` or at/after `20:00`. If none are found, it prints a clear message instead of leaving the section empty.
 
 ## Example Use Case
 
