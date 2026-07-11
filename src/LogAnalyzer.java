@@ -57,6 +57,7 @@ public class LogAnalyzer {
     }
 
     public static void detectAfterHoursLogins(String filePath){
+        int count = 0;
         try(BufferedReader reader = new BufferedReader(new FileReader(filePath))){
             String line;
             while((line = reader.readLine()) != null){
@@ -66,8 +67,12 @@ public class LogAnalyzer {
 
                     if(hour>=20 || hour < 8 ){
                         System.out.println(line);
+                        count++;
                     }
                 }
+            }
+            if(count==0){
+                System.out.println("No after-hours successful logins found");
             }
         }catch (IOException e) {
         System.out.println("Error reading file: " + e.getMessage());
