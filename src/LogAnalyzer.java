@@ -71,7 +71,7 @@ public class LogAnalyzer {
                     }
                 }
             }
-            if(count==0){
+            if(count>0){
                 System.out.println("No after-hours successful logins found");
             }
         }catch (IOException e) {
